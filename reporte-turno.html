@@ -103,27 +103,57 @@
     border-color: #2563eb;
   }
 
-  .field input::placeholder {
-    color: #555;
-  }
-
-  .field input[readonly] {
-    color: #888;
-    cursor: default;
-  }
+  .field input::placeholder { color: #555; }
+  .field input[readonly] { color: #888; cursor: default; }
 
   .field-row {
     display: flex;
     gap: 8px;
   }
 
-  .field-row .field {
-    flex: 1;
+  .field-row .field { flex: 1; }
+  .field-row .field.monto { flex: 0 0 120px; }
+
+  .bill-block {
+    background: #222;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 4px;
   }
 
-  .field-row .field.monto {
-    flex: 0 0 130px;
+  .bill-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
   }
+
+  .bill-row:last-child { margin-bottom: 0; }
+
+  .bill-idx {
+    font-size: 12px;
+    color: #666;
+    min-width: 16px;
+    font-weight: 700;
+  }
+
+  .bill-row select,
+  .bill-row input {
+    background: #1a1a1a;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 14px;
+    color: #fff;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .bill-row select { flex: 1; }
+  .bill-row input { width: 100px; }
+  .bill-row select:focus, .bill-row input:focus { border-color: #2563eb; }
+  .bill-row input::placeholder { color: #555; }
 
   .pending-block {
     background: #222;
@@ -139,9 +169,7 @@
     margin-bottom: 8px;
   }
 
-  .pending-row:last-child {
-    margin-bottom: 0;
-  }
+  .pending-row:last-child { margin-bottom: 0; }
 
   .pending-idx {
     font-size: 12px;
@@ -151,7 +179,6 @@
   }
 
   .pending-row input {
-    flex: 1;
     background: #1a1a1a;
     border: 1px solid #444;
     border-radius: 8px;
@@ -161,17 +188,10 @@
     outline: none;
   }
 
-  .pending-row input:focus {
-    border-color: #2563eb;
-  }
-
-  .pending-row input::placeholder {
-    color: #555;
-  }
-
-  .pending-row input.monto {
-    flex: 0 0 110px;
-  }
+  .pending-row input:focus { border-color: #2563eb; }
+  .pending-row input::placeholder { color: #555; }
+  .pending-row input.grow { flex: 1; }
+  .pending-row input.monto { width: 110px; }
 
   .btn-copy {
     width: 100%;
@@ -188,25 +208,74 @@
     margin-top: 4px;
   }
 
-  .btn-copy:active {
-    transform: scale(0.98);
-    background: #1d4ed8;
-  }
-
-  .btn-copy.copied {
-    background: #16a34a;
-  }
-
-  select option {
-    background: #2a2a2a;
-    color: #fff;
-  }
+  .btn-copy:active { transform: scale(0.98); background: #1d4ed8; }
+  .btn-copy.copied { background: #16a34a; }
 
   .divider {
     height: 1px;
     background: #333;
     margin: 12px 0;
   }
+
+  select option { background: #2a2a2a; color: #fff; }
+
+  .extra-field {
+    background: #222;
+    border: 1px dashed #555;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+  }
+
+  .extra-nombre {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed #555;
+    border-radius: 0;
+    padding: 4px 0 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #f59e0b;
+    outline: none;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .extra-nombre:focus { border-bottom-color: #2563eb; }
+  .extra-nombre::placeholder { color: #666; font-weight: 400; font-style: italic; }
+
+  .extra-valor {
+    width: 100%;
+    background: #1a1a1a;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 15px;
+    color: #fff;
+    outline: none;
+  }
+
+  .extra-valor:focus { border-color: #2563eb; }
+  .extra-valor::placeholder { color: #555; }
+
+  .field textarea {
+    width: 100%;
+    background: #1a1a1a;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 15px;
+    color: #ffffff;
+    outline: none;
+    resize: vertical;
+    min-height: 90px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.5;
+  }
+
+  .field textarea:focus { border-color: #2563eb; }
+  .field textarea::placeholder { color: #555; }
 </style>
 </head>
 <body>
@@ -228,6 +297,7 @@
     </div>
   </div>
 
+  <!-- INICIO -->
   <div class="card">
     <div class="section-title">🟢 Inicio de Turno</div>
     <div class="field-row">
@@ -244,29 +314,29 @@
       <label>FICHAS</label>
       <input id="f-ini-fichas" type="text" placeholder="ej: 1.213.283">
     </div>
-    <div class="field-row">
-      <div class="field">
-        <label>BILLETERA</label>
-        <select id="f-ini-bill-nombre">
-          <option value="">— Elegir —</option>
-          <option>PERSONAL PAY</option>
-          <option>CLARO PAY</option>
-          <option>MERCADO PAGO</option>
-          <option>ASTROPAY</option>
-          <option>NX</option>
-          <option>PREX</option>
-          <option>UALA</option>
-          <option>LEMON</option>
-          <option>BUEPP</option>
-        </select>
-      </div>
-      <div class="field monto">
-        <label>MONTO $</label>
-        <input id="f-ini-bill-monto" type="text" placeholder="0">
+    <div class="field">
+      <label>BILLETERAS</label>
+      <div class="bill-block">
+        <div class="bill-row">
+          <span class="bill-idx">1</span>
+          <select id="ini-b1-n"><option value="">— Elegir —</option><option>PERSONAL PAY</option><option>CLARO PAY</option><option>MERCADO PAGO</option><option>ASTROPAY</option><option>NX</option><option>PREX</option><option>UALA</option><option>LEMON</option><option>BUEPP</option></select>
+          <input id="ini-b1-m" type="text" placeholder="$ monto">
+        </div>
+        <div class="bill-row">
+          <span class="bill-idx">2</span>
+          <select id="ini-b2-n"><option value="">— Elegir —</option><option>PERSONAL PAY</option><option>CLARO PAY</option><option>MERCADO PAGO</option><option>ASTROPAY</option><option>NX</option><option>PREX</option><option>UALA</option><option>LEMON</option><option>BUEPP</option></select>
+          <input id="ini-b2-m" type="text" placeholder="$ monto">
+        </div>
+        <div class="bill-row">
+          <span class="bill-idx">3</span>
+          <select id="ini-b3-n"><option value="">— Elegir —</option><option>PERSONAL PAY</option><option>CLARO PAY</option><option>MERCADO PAGO</option><option>ASTROPAY</option><option>NX</option><option>PREX</option><option>UALA</option><option>LEMON</option><option>BUEPP</option></select>
+          <input id="ini-b3-m" type="text" placeholder="$ monto">
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- FIN -->
   <div class="card">
     <div class="section-title">🔴 Fin de Turno</div>
     <div class="field-row">
@@ -283,29 +353,29 @@
       <label>FICHAS</label>
       <input id="f-fin-fichas" type="text" placeholder="ej: 1.389.554">
     </div>
-    <div class="field-row">
-      <div class="field">
-        <label>BILLETERA</label>
-        <select id="f-fin-bill-nombre">
-          <option value="">— Elegir —</option>
-          <option>PERSONAL PAY</option>
-          <option>CLARO PAY</option>
-          <option>MERCADO PAGO</option>
-          <option>ASTROPAY</option>
-          <option>NX</option>
-          <option>PREX</option>
-          <option>UALA</option>
-          <option>LEMON</option>
-          <option>BUEPP</option>
-        </select>
-      </div>
-      <div class="field monto">
-        <label>MONTO $</label>
-        <input id="f-fin-bill-monto" type="text" placeholder="0">
+    <div class="field">
+      <label>BILLETERAS</label>
+      <div class="bill-block">
+        <div class="bill-row">
+          <span class="bill-idx">1</span>
+          <select id="fin-b1-n"><option value="">— Elegir —</option><option>PERSONAL PAY</option><option>CLARO PAY</option><option>MERCADO PAGO</option><option>ASTROPAY</option><option>NX</option><option>PREX</option><option>UALA</option><option>LEMON</option><option>BUEPP</option></select>
+          <input id="fin-b1-m" type="text" placeholder="$ monto">
+        </div>
+        <div class="bill-row">
+          <span class="bill-idx">2</span>
+          <select id="fin-b2-n"><option value="">— Elegir —</option><option>PERSONAL PAY</option><option>CLARO PAY</option><option>MERCADO PAGO</option><option>ASTROPAY</option><option>NX</option><option>PREX</option><option>UALA</option><option>LEMON</option><option>BUEPP</option></select>
+          <input id="fin-b2-m" type="text" placeholder="$ monto">
+        </div>
+        <div class="bill-row">
+          <span class="bill-idx">3</span>
+          <select id="fin-b3-n"><option value="">— Elegir —</option><option>PERSONAL PAY</option><option>CLARO PAY</option><option>MERCADO PAGO</option><option>ASTROPAY</option><option>NX</option><option>PREX</option><option>UALA</option><option>LEMON</option><option>BUEPP</option></select>
+          <input id="fin-b3-m" type="text" placeholder="$ monto">
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- MOVIMIENTOS -->
   <div class="card">
     <div class="section-title">📊 Movimientos</div>
 
@@ -327,53 +397,28 @@
     <div class="field">
       <label>PAGO PENDIENTE GRUPO</label>
       <div class="pending-block">
-        <div class="pending-row">
-          <span class="pending-idx">1</span>
-          <input id="pp-u1" type="text" placeholder="Usuario">
-          <input id="pp-m1" type="text" class="monto" placeholder="$ monto">
-        </div>
-        <div class="pending-row">
-          <span class="pending-idx">2</span>
-          <input id="pp-u2" type="text" placeholder="Usuario">
-          <input id="pp-m2" type="text" class="monto" placeholder="$ monto">
-        </div>
-        <div class="pending-row">
-          <span class="pending-idx">3</span>
-          <input id="pp-u3" type="text" placeholder="Usuario">
-          <input id="pp-m3" type="text" class="monto" placeholder="$ monto">
-        </div>
+        <div class="pending-row"><span class="pending-idx">1</span><input id="pp-u1" class="grow" type="text" placeholder="Usuario"><input id="pp-m1" class="monto" type="text" placeholder="$ monto"></div>
+        <div class="pending-row"><span class="pending-idx">2</span><input id="pp-u2" class="grow" type="text" placeholder="Usuario"><input id="pp-m2" class="monto" type="text" placeholder="$ monto"></div>
+        <div class="pending-row"><span class="pending-idx">3</span><input id="pp-u3" class="grow" type="text" placeholder="Usuario"><input id="pp-m3" class="monto" type="text" placeholder="$ monto"></div>
       </div>
     </div>
 
     <div class="divider"></div>
 
-    <div class="field">
-      <label>COLABORACIÓN RECIBIDA</label>
-      <input id="f-col-rec" type="text" placeholder="—">
+    <div class="field"><label>COLABORACIÓN RECIBIDA</label><input id="f-col-rec" type="text" placeholder="—"></div>
+    <div class="field"><label>COLABORACIÓN PAGADA</label><input id="f-col-pag" type="text" placeholder="—"></div>
+    <div class="field"><label>CARGA DE FICHAS</label><input id="f-carga-fichas" type="text" placeholder="—"></div>
+    <div class="field"><label>RETIRO DE FICHAS</label><input id="f-retiro" type="text" placeholder="—"></div>
+    <div class="field"><label>SUELDO</label><input id="f-sueldo" type="text" placeholder="—"></div>
+    <div class="field"><label>PROPINA</label><input id="f-propina" type="text" placeholder="—"></div>
+
+    <div class="field extra-field">
+      <input id="f-extra1-nombre" class="extra-nombre" type="text" placeholder="✏️ Escribí el nombre del item...">
+      <input id="f-extra1-valor" class="extra-valor" type="text" placeholder="Valor...">
     </div>
-    <div class="field">
-      <label>COLABORACIÓN PAGADA</label>
-      <input id="f-col-pag" type="text" placeholder="—">
-    </div>
-    <div class="field">
-      <label>CARGA DE FICHAS</label>
-      <input id="f-carga-fichas" type="text" placeholder="—">
-    </div>
-    <div class="field">
-      <label>RETIRO DE FICHAS</label>
-      <input id="f-retiro" type="text" placeholder="—">
-    </div>
-    <div class="field">
-      <label>SUELDO</label>
-      <input id="f-sueldo" type="text" placeholder="—">
-    </div>
-    <div class="field">
-      <label>PROPINA</label>
-      <input id="f-propina" type="text" placeholder="—">
-    </div>
-    <div class="field">
-      <label>COMENTARIOS</label>
-      <input id="f-comentarios" type="text" placeholder="—">
+    <div class="field extra-field">
+      <input id="f-extra2-nombre" class="extra-nombre" type="text" placeholder="✏️ Escribí el nombre del item...">
+      <input id="f-extra2-valor" class="extra-valor" type="text" placeholder="Valor...">
     </div>
 
     <div class="divider"></div>
@@ -381,23 +426,14 @@
     <div class="field">
       <label>PAGOS PENDIENTES SIN RETIRAR</label>
       <div class="pending-block">
-        <div class="pending-row">
-          <span class="pending-idx">1</span>
-          <input id="psr-u1" type="text" placeholder="Usuario">
-          <input id="psr-m1" type="text" class="monto" placeholder="$ monto">
-        </div>
-        <div class="pending-row">
-          <span class="pending-idx">2</span>
-          <input id="psr-u2" type="text" placeholder="Usuario">
-          <input id="psr-m2" type="text" class="monto" placeholder="$ monto">
-        </div>
-        <div class="pending-row">
-          <span class="pending-idx">3</span>
-          <input id="psr-u3" type="text" placeholder="Usuario">
-          <input id="psr-m3" type="text" class="monto" placeholder="$ monto">
-        </div>
+        <div class="pending-row"><span class="pending-idx">1</span><input id="psr-u1" class="grow" type="text" placeholder="Usuario"><input id="psr-m1" class="monto" type="text" placeholder="$ monto"></div>
+        <div class="pending-row"><span class="pending-idx">2</span><input id="psr-u2" class="grow" type="text" placeholder="Usuario"><input id="psr-m2" class="monto" type="text" placeholder="$ monto"></div>
+        <div class="pending-row"><span class="pending-idx">3</span><input id="psr-u3" class="grow" type="text" placeholder="Usuario"><input id="psr-m3" class="monto" type="text" placeholder="$ monto"></div>
       </div>
     </div>
+
+    <div class="divider"></div>
+    <div class="field"><label>COMENTARIOS</label><textarea id="f-comentarios" placeholder="Escribí tus comentarios acá..." rows="4"></textarea></div>
 
   </div>
 
@@ -406,20 +442,17 @@
   </button>
 
 </div>
-
 <script>
 const HORAS = {
-  MAÑANA: { ini: '06:00', fin: '14:00' },
-  TARDE:  { ini: '14:00', fin: '22:00' },
-  NOCHE:  { ini: '22:00', fin: '06:00' }
+  MAÑANA: { ini:'06:00', fin:'14:00' },
+  TARDE:  { ini:'14:00', fin:'22:00' },
+  NOCHE:  { ini:'22:00', fin:'06:00' }
 };
 let turno = 'MAÑANA';
 
 function setTurno(t) {
   turno = t;
-  document.querySelectorAll('.turno-btn').forEach(b => {
-    b.classList.toggle('active', b.textContent === t);
-  });
+  document.querySelectorAll('.turno-btn').forEach(b => b.classList.toggle('active', b.textContent === t));
   document.getElementById('f-ini-hora').value = HORAS[t].ini;
   document.getElementById('f-fin-hora').value = HORAS[t].fin;
   const btn = document.getElementById('btn-copy');
@@ -428,7 +461,18 @@ function setTurno(t) {
 }
 
 function v(id) {
-  return document.getElementById(id).value.trim() || '—';
+  const el = document.getElementById(id);
+  return el ? (el.value.trim() || '—') : '—';
+}
+
+function buildBilleteras(prefix) {
+  const lines = [];
+  for (let i = 1; i <= 3; i++) {
+    const n = document.getElementById(`${prefix}-b${i}-n`).value;
+    const m = document.getElementById(`${prefix}-b${i}-m`).value.trim();
+    if (n) lines.push(`   💳 ${n}: $${m || '0'}`);
+  }
+  return lines.length ? '\n' + lines.join('\n') : ' —';
 }
 
 function buildPendientes(prefix) {
@@ -436,48 +480,65 @@ function buildPendientes(prefix) {
   for (let i = 1; i <= 3; i++) {
     const u = document.getElementById(`${prefix}-u${i}`).value.trim();
     const m = document.getElementById(`${prefix}-m${i}`).value.trim();
-    if (u) lines.push(`  • ${u}: $${m || '—'}`);
+    if (u) lines.push(`   • ${u}: $${m || '—'}`);
   }
   return lines.length ? '\n' + lines.join('\n') : ' —';
 }
 
 function generarReporte() {
-  const iniBill = document.getElementById('f-ini-bill-nombre').value || '—';
-  const finBill = document.getElementById('f-fin-bill-nombre').value || '—';
+  const sep  = '━━━━━━━━━━━━━━━━━━━━━━';
+  const sep2 = '──────────────────────';
+
+  const extra1nombre = document.getElementById('f-extra1-nombre').value.trim();
+  const extra1valor  = document.getElementById('f-extra1-valor').value.trim() || '—';
+  const extra2nombre = document.getElementById('f-extra2-nombre').value.trim();
+  const extra2valor  = document.getElementById('f-extra2-valor').value.trim() || '—';
+
+  const lineaExtra1 = extra1nombre ? `\n📌 ${extra1nombre}: ${extra1valor}` : '';
+  const lineaExtra2 = extra2nombre ? `\n📌 ${extra2nombre}: ${extra2valor}` : '';
 
   const texto =
-`📋 REPORTE DIARIO: TURNO ${turno}
-👤 NOMBRE: ${v('f-nombre')}
-——————————————————
+`${sep}
+📋 REPORTE DIARIO
+🔹 Turno: ${turno}
+👤 Agente: ${v('f-nombre')}
+${sep}
 
 🟢 INICIO DE TURNO
-Día: ${v('f-ini-dia')}
-Hora: ${HORAS[turno].ini}
-Fichas: ${v('f-ini-fichas')}
-Billetera: ${iniBill} $${v('f-ini-bill-monto')}
+📅 Día: ${v('f-ini-dia')}
+🕐 Hora: ${HORAS[turno].ini}
+🎰 Fichas: ${v('f-ini-fichas')}
+💳 Billetera:${buildBilleteras('ini')}
 
-——————————————————
+${sep2}
 
 🔴 FIN DE TURNO
-Día: ${v('f-fin-dia')}
-Hora: ${HORAS[turno].fin}
-Fichas: ${v('f-fin-fichas')}
-Billetera: ${finBill} $${v('f-fin-bill-monto')}
+📅 Día: ${v('f-fin-dia')}
+🕐 Hora: ${HORAS[turno].fin}
+🎰 Fichas: ${v('f-fin-fichas')}
+💳 Billetera:${buildBilleteras('fin')}
 
-——————————————————
+${sep}
 
-Bonos: ${v('f-bonos')}
-Descartes: ${v('f-descartes')}
-Cargas de Otros Turnos: ${v('f-cargas')}
-Pago Pendiente Grupo:${buildPendientes('pp')}
-Colaboración Recibida: ${v('f-col-rec')}
-Colaboración Pagada: ${v('f-col-pag')}
-Carga de Fichas: ${v('f-carga-fichas')}
-Retiro de Fichas: ${v('f-retiro')}
-Sueldo: ${v('f-sueldo')}
-Propina: ${v('f-propina')}
-Comentarios: ${v('f-comentarios')}
-Pagos Pendientes sin Retirar:${buildPendientes('psr')}`;
+📊 MOVIMIENTOS
+${sep2}
+🎁 Bonos: ${v('f-bonos')}
+🗑 Descartes: ${v('f-descartes')}
+🔄 Cargas Otros Turnos: ${v('f-cargas')}
+
+💸 Pago Pendiente Grupo:${buildPendientes('pp')}
+
+📥 Colaboración Recibida: ${v('f-col-rec')}
+📤 Colaboración Pagada: ${v('f-col-pag')}
+📲 Carga de Fichas: ${v('f-carga-fichas')}
+📤 Retiro de Fichas: ${v('f-retiro')}
+💵 Sueldo: ${v('f-sueldo')}
+🎩 Propina: ${v('f-propina')}${lineaExtra1}${lineaExtra2}
+
+⏳ Pagos Pendientes sin Retirar:${buildPendientes('psr')}
+
+💬 Comentarios: ${v('f-comentarios')}
+${sep}`;
 
   navigator.clipboard.writeText(texto).then(() => {
     const btn = document.getElementById('btn-copy');
@@ -488,7 +549,7 @@ Pagos Pendientes sin Retirar:${buildPendientes('psr')}`;
       btn.classList.remove('copied');
     }, 3000);
   }).catch(() => {
-    alert('No se pudo copiar automáticamente. Seleccioná el texto manualmente.');
+    alert('No se pudo copiar. Intentá de nuevo.');
   });
 }
 
